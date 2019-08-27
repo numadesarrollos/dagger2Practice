@@ -1,7 +1,11 @@
 package com.numadesarrollos.dagger2practice;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+
+import com.bumptech.glide.RequestManager;
 
 import javax.inject.Inject;
 
@@ -12,7 +16,10 @@ public class AuthActivity extends DaggerAppCompatActivity {
     private final static String TAG = AuthActivity.class.getSimpleName();
 
     @Inject
-    String myString;
+    Drawable logo;
+
+    @Inject
+    RequestManager requestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +27,13 @@ public class AuthActivity extends DaggerAppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        setLogo();
+    }
 
-        Log.i(TAG, "OnCreate() " + myString);
+    private void setLogo(){
+        requestManager
+                .load(logo)
+                .into((ImageView) findViewById(R.id.login_logo));
+
     }
 }
