@@ -1,5 +1,6 @@
 package com.numadesarrollos.dagger2practice.di;
 
+import com.numadesarrollos.dagger2practice.di.auth.AuthModule;
 import com.numadesarrollos.dagger2practice.di.auth.AuthViewModelsModule;
 import com.numadesarrollos.dagger2practice.ui.auth.AuthActivity;
 
@@ -10,7 +11,8 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector(
-        modules = AuthViewModelsModule.class
+        modules = {AuthViewModelsModule.class,
+                AuthModule.class}
     )
     abstract AuthActivity contributeAuthActivity();
 }
