@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.RequestManager;
@@ -54,7 +53,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void subscribeObservers(){
-        viewModel.observeUser().observe(this, new Observer<AuthResource<User>>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<User>>() {
             @Override
             public void onChanged(AuthResource<User> userAuthResource) {
                 if(userAuthResource != null){
@@ -108,6 +107,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         if(TextUtils.isEmpty(userId.getText().toString())){
             return;
         }
-        viewModel.AuthenticateWithId(Integer.valueOf(userId.getText().toString()));
+        viewModel.authenticateWithId(Integer.valueOf(userId.getText().toString()));
     }
 }

@@ -6,7 +6,6 @@ import com.numadesarrollos.dagger2practice.di.ViewModelKey;
 import com.numadesarrollos.dagger2practice.ui.auth.AuthViewModel;
 
 import dagger.Binds;
-import dagger.MapKey;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 
