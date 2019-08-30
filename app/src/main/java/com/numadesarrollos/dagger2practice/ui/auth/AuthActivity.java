@@ -1,5 +1,6 @@
 package com.numadesarrollos.dagger2practice.ui.auth;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.RequestManager;
 import com.numadesarrollos.dagger2practice.R;
 import com.numadesarrollos.dagger2practice.models.User;
+import com.numadesarrollos.dagger2practice.ui.main.MainActivity;
 import com.numadesarrollos.dagger2practice.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -71,12 +73,19 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                             break;
                         case AUTHENTICATED:
                             showProgressBar(false);
+                            onLoginSuccess();
                             Log.i(TAG,"Login success : " + userAuthResource.data.getEmail());
                             break;
                     }
                 }
             }
         });
+    }
+
+    private void onLoginSuccess(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void showProgressBar(boolean isVisible){
