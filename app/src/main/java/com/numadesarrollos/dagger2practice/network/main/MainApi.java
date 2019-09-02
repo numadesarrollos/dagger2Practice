@@ -12,8 +12,8 @@ public interface MainApi {
 
     //posts=userId=1
 
-    @GET
+    @GET("posts")
     Flowable<List<Post>> getPostsFromUser(
-            @Query("userID") int id
+            @Query("userId") int id
     );
 }

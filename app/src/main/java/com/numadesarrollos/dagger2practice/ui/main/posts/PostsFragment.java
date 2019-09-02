@@ -1,17 +1,25 @@
 package com.numadesarrollos.dagger2practice.ui.main.posts;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.numadesarrollos.dagger2practice.R;
+import com.numadesarrollos.dagger2practice.models.Post;
+import com.numadesarrollos.dagger2practice.ui.main.Resource;
+import com.numadesarrollos.dagger2practice.util.VerticalSpaceItemDecoration;
 import com.numadesarrollos.dagger2practice.viewmodels.ViewModelProviderFactory;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,6 +35,12 @@ public class PostsFragment extends DaggerFragment {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
+    @Inject
+    PostsRecyclerAdapter adapter;
+    @Inject
+    LinearLayoutManager linearLayoutManager;
+    @Inject
+    VerticalSpaceItemDecoration itemDecoration;
 
     @Nullable
     @Override
@@ -39,5 +53,38 @@ public class PostsFragment extends DaggerFragment {
         recyclerView = view.findViewById(R.id.recycler_view);
 
         viewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(PostsViewModel.class);
+
+        initRecyclerView();
+        subscribeObservers();
+    }
+
+    private void subscribeObservers(){
+        viewModel.observePosts().removeObservers(getViewLifecycleOwner());
+        viewModel.observePosts().observe(getViewLifecycleOwner(), new Observer<Resource<List<Post>>>() {
+            @Override
+            public void onChanged(Resource<List<Post>> listResource) {
+                if(listResource != null){
+                    switch (listResource.status){
+                        case LOADING:
+                            Log.d(TAG, "onChanged: LOADING....");
+                            break;
+                        case SUCCESS:
+                            Log.d(TAG, "onChanged: getPOst...");
+                            adapter.setPosts(listResource.data);
+                            break;
+                        case ERROR:
+                            Log.e(TAG, "onChanged: ERROR ... " + listResource.message);
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void initRecyclerView(){
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setAdapter(adapter);
+
     }
 }
