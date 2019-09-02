@@ -26,6 +26,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class AuthActivity extends DaggerAppCompatActivity implements View.OnClickListener {
 
+
     private final static String TAG = AuthActivity.class.getSimpleName();
 
     private EditText userId;
@@ -95,11 +96,19 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
             progressBar.setVisibility(View.GONE);
         }
     }
+
     private void setLogo(){
         requestManager
                 .load(logo)
                 .into((ImageView) findViewById(R.id.login_logo));
 
+    }
+
+    private void attemptLogin() {
+        if(TextUtils.isEmpty(userId.getText().toString())){
+            return;
+        }
+        viewModel.authenticateWithId(Integer.valueOf(userId.getText().toString()));
     }
 
     @Override
@@ -110,12 +119,5 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                 attemptLogin();
                 break;
         }
-    }
-
-    private void attemptLogin() {
-        if(TextUtils.isEmpty(userId.getText().toString())){
-            return;
-        }
-        viewModel.authenticateWithId(Integer.valueOf(userId.getText().toString()));
     }
 }
