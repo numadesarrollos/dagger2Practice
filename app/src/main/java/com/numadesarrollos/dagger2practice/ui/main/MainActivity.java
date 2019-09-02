@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.numadesarrollos.dagger2practice.BaseActivity;
 import com.numadesarrollos.dagger2practice.R;
-import com.numadesarrollos.dagger2practice.ui.main.profile.ProfileFragment;
+import com.numadesarrollos.dagger2practice.ui.main.posts.PostsFragment;
 
 public class MainActivity extends BaseActivity {
 
@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
     private void testFragment(){
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.mainContainer, new ProfileFragment())
+                .replace(R.id.mainContainer, new PostsFragment())
                 .commit();
     }
 }
